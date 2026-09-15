@@ -61,7 +61,7 @@ void printTable(vector<employee> employees) {
     cout<<"----------------------------------------------------------------------";
     for (auto emp: employees) {
         cout<<endl;
-        cout<<emp.name<<setw(23-emp.name.length())<<emp.EIN<<setw(15)<<emp.rate<<setw(15)<<emp.hours<<setw(15)<<emp.grossPay;
+        cout<<emp.name<<setw(23-emp.name.length())<<emp.EIN<<setw(10)<<"$"<<emp.rate<<setw(15)<<emp.hours<<setw(10)<<"$"<<emp.grossPay;
     }
 }
 
