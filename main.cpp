@@ -33,9 +33,16 @@ void parseLine(string line,employee &emp) {
 
 
 
-void getDataFromCSV(vector<employee> &employees) {
+bool getDataFromCSV(vector<employee> &employees) {
     string line;
     ifstream csv("EmployeeData.csv");
+    if (!csv.is_open()) {
+        csv.open("../EmployeeData.csv");
+        if (!csv.is_open()) {
+            cout<<"Error opening file! Please make sure EmployeeData.csv is in the same directory as the built executable!"<<endl;
+            return true;
+        }
+    }
     getline(csv,line);
     while (getline(csv,line)) {
         employee nextEmployee;
@@ -43,7 +50,7 @@ void getDataFromCSV(vector<employee> &employees) {
         employees.push_back(nextEmployee);
     }
     csv.close();
-
+    return false;
 };
 
 void randomize(vector<employee> &employees) {
@@ -67,15 +74,21 @@ void printTable(vector<employee> employees) {
 
 int main() {
     vector<employee> employees;
-    getDataFromCSV(employees);
+    bool r = getDataFromCSV(employees);
+    if (r) {
+        return 1;
+    }
     for (auto &employee: employees) {
         employee.grossPay = employee.rate * employee.hours;
         employee.grossPay = round(employee.grossPay*100)/100;
     };
+    cout<<"Table 1 (Regular order):"<<endl;
     printTable(employees);
     randomize(employees);
+    cout<<endl<<endl<<"Table 2 (Random order):";
     printTable(employees);
     sort(employees.begin(), employees.end(),[](employee a,employee b)->bool {return a.grossPay > b.grossPay;});
+    cout<<endl<<endl<<"Table 3 (Sorted by Gross Pay):";
     printTable(employees);
 
 
